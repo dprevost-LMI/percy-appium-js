@@ -9,7 +9,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { wdio: 8, node: 24 }
+          - { wdio: 8, node: 20 }
           - { wdio: 9, node: 22 }
           - { wdio: 10, node: 24 }
     runs-on: ubuntu-latest
