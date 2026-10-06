@@ -13,7 +13,14 @@ $ npm install --save-dev @percy/cli @percy/appium-app
 >
 > Minimum required version for `@percy/cli` is `1.25.0` for this package to work correctly.
 >
-> This is tested on node 14+ and should be compatible with all newer node versions
+> This is tested on Node.js 22 and 24 in CI.
+
+## Supported versions
+
+- WebdriverIO 8, 9 and 10, and `wd`.
+- WebdriverIO 10 needs Node.js 22.19.0 or later and Appium 3.
+- With Appium 3, use `appium:`-prefixed capabilities. `percy:options` does not change.
+- The ignore and consider region lookups use the first match. This is also true under WebdriverIO 10 strict selectors.
 
 ## Usage
 

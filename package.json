@@ -33,6 +33,14 @@
     "test:coverage": "nyc yarn test",
     "test:types": "tsd"
   },
+  "peerDependencies": {
+    "webdriverio": "^8 || ^9 || ^10"
+  },
+  "peerDependenciesMeta": {
+    "webdriverio": {
+      "optional": true
+    }
+  },
   "dependencies": {
     "@percy/sdk-utils": "^1.30.9",
     "tmp": "^0.2.3"
