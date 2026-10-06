@@ -145,7 +145,7 @@ class AppiumDriver {
     // for finding element size and location and attributes
     if (this.wd) return await this.driver.elementByXPath(xpath);
     /* istanbul ignore next */ // not sure why its marking it when its covered
-    if (this.wdio) return await this.driver.$(xpath);
+    if (this.wdio) return await this.driver.$(xpath, { strict: false }); // v10 `$` is strict; v8/v9 ignore the argument
   }
 
   async elementByAccessibilityId(id) {
@@ -153,7 +153,7 @@ class AppiumDriver {
     // for finding element size and location and attributes
     if (this.wd) return await this.driver.elementByAccessibilityId(id);
     /* istanbul ignore next */ // not sure why its marking it when its covered
-    if (this.wdio) return await this.driver.$(`~${id}`);
+    if (this.wdio) return await this.driver.$(`~${id}`, { strict: false }); // v10 `$` is strict; v8/v9 ignore the argument
   }
 }
 

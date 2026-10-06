@@ -49,4 +49,12 @@ describe('webdriverio contract', () => {
     expect(requests.some(r => r.path.endsWith('/appium/device/system_bars') ||
       r.body?.script === 'mobile: getSystemBars')).toBeTrue();
   });
+
+  it('returns the first match of an XPath that matches two elements', async () => {
+    expect((await new AppiumDriver(browser).elementByXPath('//dup')).elementId).toBe('el-1');
+  });
+
+  it('returns the first match of an accessibility id that matches two elements', async () => {
+    expect((await new AppiumDriver(browser).elementByAccessibilityId('dup')).elementId).toBe('el-1');
+  });
 });

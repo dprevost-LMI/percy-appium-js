@@ -84,17 +84,21 @@ describe('AppiumDriver', () => {
     });
 
     it('should return correct element location by XPath for wdio driver', async () => {
-      const driver = new AppiumDriver(wdioDriver());
+      const browser = wdioDriver();
+      const driver = new AppiumDriver(browser);
       const xpath = '//div[@class="example"]';
       const element = await driver.elementByXPath(xpath);
+      expect(browser.$).toHaveBeenCalledWith(xpath, { strict: false });
       expect(element.getLocation()).toEqual({ x: 10, y: 20 });
       expect(element.getSize()).toEqual({ width: 100, height: 200 });
     });
 
     it('should return correct element location by id for wdio driver', async () => {
-      const driver = new AppiumDriver(wdioDriver());
+      const browser = wdioDriver();
+      const driver = new AppiumDriver(browser);
       const id = 'id';
       const element = await driver.elementByAccessibilityId(id);
+      expect(browser.$).toHaveBeenCalledWith('~id', { strict: false });
       expect(element.getLocation()).toEqual({ x: 10, y: 20 });
       expect(element.getSize()).toEqual({ width: 100, height: 200 });
     });
