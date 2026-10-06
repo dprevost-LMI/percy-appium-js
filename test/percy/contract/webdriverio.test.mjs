@@ -57,4 +57,13 @@ describe('webdriverio contract', () => {
   it('returns the first match of an accessibility id that matches two elements', async () => {
     expect((await new AppiumDriver(browser).elementByAccessibilityId('dup')).elementId).toBe('el-1');
   });
+
+  it('posts string scripts to the Classic execute endpoint', async () => {
+    await new AppiumDriver(browser).execute('browserstack_executor: {"action":"x"}');
+    expect(requests).toContain(jasmine.objectContaining({
+      method: 'POST',
+      path: '/session/fake-session/execute/sync',
+      body: { script: 'browserstack_executor: {"action":"x"}', args: [] }
+    }));
+  });
 });

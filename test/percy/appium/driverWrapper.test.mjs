@@ -103,6 +103,15 @@ describe('AppiumDriver', () => {
       expect(element.getSize()).toEqual({ width: 100, height: 200 });
     });
 
+    it('uses executeScript for wdio string scripts on a BiDi session', async () => {
+      const browser = wdioDriver();
+      browser.isBidi = true;
+      browser.execute = jasmine.createSpy().and.rejectWith(new Error('BiDi script.callFunction'));
+      await new AppiumDriver(browser).execute('mobile: viewportRect');
+      expect(browser.executeScript).toHaveBeenCalledWith('mobile: viewportRect', []);
+      expect(browser.execute).not.toHaveBeenCalled();
+    });
+
     it('should return correct commandExecutorUrl', async () => {
       const driver = new AppiumDriver(wdioDriver());
       expect(driver.commandExecutorUrl).toEqual('https://localhost/wd/hub');

@@ -104,7 +104,9 @@ class AppiumDriver {
 
   async execute(command) {
     return await TimeIt.run('execute', async () => {
-      return await this.driver.execute(command);
+      if (this.wd) return await this.driver.execute(command);
+      // browser.execute goes over BiDi when the session has a browserName; executeScript is always Classic.
+      return await this.driver.executeScript(command, []);
     });
   }
 
