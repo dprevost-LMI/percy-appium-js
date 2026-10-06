@@ -283,10 +283,10 @@ describe('percyScreenshot', () => {
         spyOn(percyOnAutomate, 'request').and.callFake(() => {});
 
         await percyScreenshot(driver, 'Screenshot 4', {
-          ignoreRegionAppiumElements: [Promise.resolve({ value: 'el-1', elementId: 'el-1' })]
+          ignoreRegionAppiumElements: [Promise.resolve({ value: 'wd-1', elementId: 'wdio-1' })]
         });
         expect(percyOnAutomate.request).toHaveBeenCalledWith(jasmine.objectContaining({
-          options: { ignore_region_elements: ['el-1'] }
+          options: { ignore_region_elements: [driverType === 'wd driver' ? 'wd-1' : 'wdio-1'] }
         }));
       });
 
