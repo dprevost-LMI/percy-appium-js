@@ -74,13 +74,11 @@ export async function startFakeAppium() {
 }
 
 export function attachBrowser(port) {
+  // webdriverio 8/9 attach() read the connection from `options`
   return attach({
     sessionId: SESSION,
     capabilities: CAPABILITIES,
-    hostname: '127.0.0.1',
-    port,
-    protocol: 'http',
-    path: '/',
+    options: { hostname: '127.0.0.1', port, protocol: 'http', path: '/' },
     logLevel: 'silent'
   });
 }
