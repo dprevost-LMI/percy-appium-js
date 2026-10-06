@@ -1,3 +1,4 @@
+import { getElementIdFromElements } from '../../../percy/percyOnAutomate.js';
 import { AppiumDriver } from '../../../percy/driver/driverWrapper.js';
 import { Cache } from '../../../percy/util/cache.js';
 import { resolveAppiumClientPkg } from '../../../percy/util/resolveClientPkg.js';
@@ -56,6 +57,14 @@ describe('webdriverio contract', () => {
 
   it('returns the first match of an accessibility id that matches two elements', async () => {
     expect((await new AppiumDriver(browser).elementByAccessibilityId('dup')).elementId).toBe('el-1');
+  });
+
+  it('collects element ids from an un-awaited $$ list', async () => {
+    expect(await getElementIdFromElements('wdio', browser.$$('//dup'))).toEqual(['el-1', 'el-2']);
+  });
+
+  it('collects element ids from an awaited $$ list', async () => {
+    expect(await getElementIdFromElements('wdio', await browser.$$('//dup'))).toEqual(['el-1', 'el-2']);
   });
 
   it('posts string scripts to the Classic execute endpoint', async () => {
