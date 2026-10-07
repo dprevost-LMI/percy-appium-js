@@ -290,6 +290,20 @@ describe('percyScreenshot', () => {
         }));
       });
 
+      it('should resolve a promise of an element list for considerRegion', async () => {
+        const driver = driverFunc({ enabled: true });
+        spyOn(percyScreenshot, 'isPercyEnabled').and.returnValue(Promise.resolve(true));
+        utils.percy.type = 'automate';
+        spyOn(percyOnAutomate, 'request').and.callFake(() => {});
+
+        await percyScreenshot(driver, 'Screenshot 5', {
+          considerRegionAppiumElements: Promise.resolve([{ value: 'wd-1', elementId: 'wdio-1' }])
+        });
+        expect(percyOnAutomate.request).toHaveBeenCalledWith(jasmine.objectContaining({
+          options: { consider_region_elements: [driverType === 'wd driver' ? 'wd-1' : 'wdio-1'] }
+        }));
+      });
+
       it('should call POA percyScreenshot with ignoreRegion and considerRegion', async () => {
         const element = { value: '123', elementId: '123' };
         const element2 = { value: '456', elementId: '456' };

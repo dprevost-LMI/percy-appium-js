@@ -2,6 +2,10 @@ const { Cache } = require('../util/cache');
 const { Undefined } = require('../util/validations');
 const { TimeIt } = require('../util/timing');
 
+// WebdriverIO 10 `$` throws when a selector matches more than one element.
+// `strict: false` keeps the first match; WebdriverIO 8 and 9 ignore it.
+const FIRST_MATCH = { strict: false };
+
 // This is a single common driver class that gives same interface to multiple appium drivers
 // like wd or wdio etc.
 class AppiumDriver {
@@ -147,7 +151,7 @@ class AppiumDriver {
     // for finding element size and location and attributes
     if (this.wd) return await this.driver.elementByXPath(xpath);
     /* istanbul ignore next */ // not sure why its marking it when its covered
-    if (this.wdio) return await this.driver.$(xpath, { strict: false }); // v10 `$` is strict; v8/v9 ignore the argument
+    if (this.wdio) return await this.driver.$(xpath, FIRST_MATCH);
   }
 
   async elementByAccessibilityId(id) {
@@ -155,7 +159,7 @@ class AppiumDriver {
     // for finding element size and location and attributes
     if (this.wd) return await this.driver.elementByAccessibilityId(id);
     /* istanbul ignore next */ // not sure why its marking it when its covered
-    if (this.wdio) return await this.driver.$(`~${id}`, { strict: false }); // v10 `$` is strict; v8/v9 ignore the argument
+    if (this.wdio) return await this.driver.$(`~${id}`, FIRST_MATCH);
   }
 }
 

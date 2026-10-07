@@ -50,12 +50,18 @@ export async function startFakeAppium() {
     req.on('data', c => chunks.push(c));
     req.on('end', () => {
       const raw = Buffer.concat(chunks).toString();
-      let body;
-      try { body = raw ? JSON.parse(raw) : undefined; } catch { body = raw; }
       const path = req.url.split('?')[0];
+      res.setHeader('content-type', 'application/json');
+      let body;
+      try {
+        body = raw ? JSON.parse(raw) : undefined;
+      } catch {
+        res.statusCode = 400;
+        res.end(JSON.stringify({ value: { error: 'invalid argument', message: 'body is not JSON' } }));
+        return;
+      }
       requests.push({ method: req.method, path, body });
       const reply = route(req.method, path, body);
-      res.setHeader('content-type', 'application/json');
       res.statusCode = reply ? 200 : 404;
       res.end(JSON.stringify(reply || {
         value: { error: 'unknown command', message: `${req.method} ${path}` }
